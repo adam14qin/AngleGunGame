@@ -1,5 +1,12 @@
 package gunGame;
 
-public class Player {
-
+public abstract class Player {
+	int guess; 
+	
+	public Player() {
+		
+	}
+	
+	public abstract int guess();
+	
 }
