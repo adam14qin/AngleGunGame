@@ -24,32 +24,49 @@ public class ShootingTests {
 		board.initialize();
 	}
 	@Test
-	public void testBulletMovement() {
-		Bullet bulletZero = new Bullet(20, 0);
-		Bullet bulletWeird = new Bullet(20, 45);
-		Bullet bulletNegative = new Bullet(20, 225);
+	public void testBulletCollision() {
+		board.getChallengePlayer().setBullet(new Bullet(10, 0));
+		board.addTarget(new Target(TargetDirection.EAST, 0, 50));
 		
-		Point point1 = bulletZero.update(); 
-		Point point2 = bulletWeird.update();
-		Point point3 = bulletNegative.update();
+		for(int i=0; i < 4; i++)
+		{
+		board.update();
+		Target target = board.checkCollision();
+		assertNull(target);
+		}
 		
-		assertEquals(point1, new Point((int)board.ORIGIN.getX()+20, (int)board.ORIGIN.getY())); 
-		assertEquals(point2, new Point((int)board.ORIGIN.getX()+14, (int)board.ORIGIN.getY()-14)); 
-		assertEquals(point3, new Point((int)board.ORIGIN.getX()-14, (int)board.ORIGIN.getY()+14));
+		board.update();
+		Target target = board.checkCollision();
+		assertEquals(target, board.getTargets().get(0)); 
 	}
 	
 	@Test
-	public void testTargetMovement() {
-		Target target1 = new Target(TargetDirection.EAST, 10, 50);
-		Target target2 = new Target(TargetDirection.SOUTH_WEST, 10, 50); 
-		Target target3 = new Target(TargetDirection.NORTH_WEST, 10, 50); 
+	public void testBulletMiss() {
+		board.getChallengePlayer().setBullet(new Bullet(10, 0));
+		board.addTarget(new Target(TargetDirection.WEST, 0, 50));
 		
-		Point point1 = target1.update(); 
-		Point point2 = target2.update();
-		Point point3 = target3.update();
-		
-		assertEquals(point1 , new Point((int)board.ORIGIN.getX() + 40, (int)board.ORIGIN.getY()));
-		assertEquals(point1 , new Point((int)board.ORIGIN.getX() - 43, (int)board.ORIGIN.getY() + 43));
-		assertEquals(point1 , new Point((int)board.ORIGIN.getX() - 43, (int)board.ORIGIN.getY()-43));
+		for(int i=0; i < 4; i++)
+		{
+		board.update();
+		Target target = board.checkCollision();
+		assertNull(target);
+		}
+		board.update();
+		Target target = board.checkCollision();
+		assertNull(target);
 	}
+	
+	
+	
+	@Test 
+	public void testScoreIncrement() {
+		int score = board.getScore();
+		testBulletCollision();
+		assertTrue(board.getScore() == score+1);
+		
+		int score2 = board.getScore();
+		testBulletMiss();
+		assertEquals(board.getScore(), score2);
+	}
+	
 }

@@ -7,13 +7,17 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel{
 	private ArrayList<Target> targets; 
-	private Player player;
+	private ChallengePlayer challengePlayer;
+	public QuizPlayer quizPlayer;
+	
 	private int score; 
 	public final Point ORIGIN = new Point(300, 300);
 	private static Board theInstance = new Board();
 	
 	private Board() {
-		
+		challengePlayer = new ChallengePlayer(); 
+		quizPlayer = new QuizPlayer();
+		targets = new ArrayList<>();
 	}
 	
 	public static Board getInstance() 
@@ -25,11 +29,29 @@ public class Board extends JPanel{
 		
 	}
 	
-	public boolean checkCollision() {
-		return false; 
+	public Target checkCollision() {
+		return new Target(null, 0, 0); 
 	}
 
 	public void initialize() {
 		
+	}
+	
+	//GETTERS AND SETTERS 
+	
+	public ChallengePlayer getChallengePlayer() {
+		return challengePlayer; 
+	}
+	
+	public void addTarget(Target target) {
+		targets.add(target);
+	}
+
+	public ArrayList<Target> getTargets() {
+		return targets;
+		}
+
+	public int getScore() {
+		return score;
 	}
 }

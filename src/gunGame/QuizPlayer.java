@@ -8,4 +8,6 @@ public class QuizPlayer extends Player{
 		return 0;
 	}
 
+
+
 }
