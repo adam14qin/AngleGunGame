@@ -28,16 +28,17 @@ public class ShootingTests {
 		board.getChallengePlayer().setBullet(new Bullet(10, 0));
 		board.addTarget(new Target(TargetDirection.EAST, 0, 50));
 		
-		for(int i=0; i < 4; i++)
+		for(int i=0; i < 5; i++)
 		{
 		board.update();
+		System.out.println(board.getChallengePlayer().getBullet().getPoint());
 		Target target = board.checkCollision();
 		assertNull(target);
 		}
 		
 		board.update();
 		Target target = board.checkCollision();
-		assertEquals(target, board.getTargets().get(0)); 
+		assertEquals(board.getTargets().get(0), target); 
 	}
 	
 	@Test

@@ -9,9 +9,7 @@ public class ChallengePlayer extends Player{
 		return 0;
 	}
 
-	public void setBullet(Bullet bullet) {
-		this.bullet = bullet;
-	}
+	
 	
 	
 }
