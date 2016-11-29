@@ -30,7 +30,7 @@ public class Board extends JPanel{
 	}
 	
 	public Target checkCollision() {
-		return new Target(null, 0, 0); 
+		return new Target(TargetDirection.EAST, 0, 0); 
 	}
 
 	public void initialize() {

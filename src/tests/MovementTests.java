@@ -32,9 +32,9 @@ public class MovementTests {
 		Point point2 = bulletWeird.update();
 		Point point3 = bulletNegative.update();
 		
-		assertEquals(new Point((int)board.ORIGIN.getX()+20, (int)board.ORIGIN.getY()), point1); 
-		assertEquals(new Point((int)board.ORIGIN.getX()+14, (int)board.ORIGIN.getY()-14), point2); 
-		assertEquals(new Point((int)board.ORIGIN.getX()-14, (int)board.ORIGIN.getY()+14), point3);
+		assertEquals(new Point((int)Board.ORIGIN.getX()+20, (int)Board.ORIGIN.getY()), point1); 
+		assertEquals(new Point((int)Board.ORIGIN.getX()+14, (int)Board.ORIGIN.getY()-14), point2); 
+		assertEquals(new Point((int)Board.ORIGIN.getX()-14, (int)Board.ORIGIN.getY()+14), point3);
 	}
 	
 	@Test
@@ -47,9 +47,9 @@ public class MovementTests {
 		Point point2 = target2.update();
 		Point point3 = target3.update();
 		
-		assertEquals(point1 , new Point((int)board.ORIGIN.getX() + 40, (int)board.ORIGIN.getY()));
-		assertEquals(point2 , new Point((int)board.ORIGIN.getX() - 43, (int)board.ORIGIN.getY() + 43));
-		assertEquals(point3 , new Point((int)board.ORIGIN.getX() - 43, (int)board.ORIGIN.getY()-43));
+		assertEquals(new Point((int)Board.ORIGIN.getX() + 40, (int)Board.ORIGIN.getY()), point1);
+		assertEquals(new Point((int)Board.ORIGIN.getX() - 28, (int)Board.ORIGIN.getY() + 28), point2);
+		assertEquals(new Point((int)Board.ORIGIN.getX() - 28, (int)Board.ORIGIN.getY()-28), point3);
 	}
 	
 	
