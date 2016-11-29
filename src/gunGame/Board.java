@@ -11,7 +11,7 @@ public class Board extends JPanel{
 	public QuizPlayer quizPlayer;
 	
 	private int score; 
-	public final Point ORIGIN = new Point(300, 300);
+	public final static Point ORIGIN = new Point(300, 300);
 	private static Board theInstance = new Board();
 	
 	private Board() {
