@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class Target extends Line2D{
+public class Target extends Line2D {
 
 	private int length;
 	private Point first, second; 
@@ -26,12 +26,11 @@ public class Target extends Line2D{
 	
 
 
-	public void recalibratePoints()
-	{
+	public void recalibratePoints() {
 		int x1 = (int) (point.getX() + (length/2)*(sinDegrees(direction.getAngle()))); 
 		int x2 = (int) (point.getX() - (length/2)*(sinDegrees(direction.getAngle()))); 
-		int y1 = (int) (point.getX() + (length/2)*(cosDegrees(direction.getAngle()))); 
-		int y2 = (int) (point.getX() - (length/2)*(cosDegrees(direction.getAngle())));
+		int y1 = (int) (point.getY() + (length/2)*(cosDegrees(direction.getAngle()))); 
+		int y2 = (int) (point.getY() - (length/2)*(cosDegrees(direction.getAngle())));
 		first = new Point(x1, y1); 
 		second = new Point(x2, y2); 
 	}
@@ -102,6 +101,4 @@ public class Target extends Line2D{
 	public String toString() {
 		return "Target [point=" + point + ", direction=" + direction + "]";
 	}
-	
-	
 }

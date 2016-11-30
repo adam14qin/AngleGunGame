@@ -2,9 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.Point;
-
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import gunGame.Board;
@@ -16,24 +14,22 @@ public class ShootingTests {
 	
 	private static Board board;
 	
-	@BeforeClass
-	public static void setUp() {
+	@Before
+	public void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
-		//Initialize the board
-		board.initialize();
 	}
+	
 	@Test
 	public void testBulletCollision() {
-		board.getChallengePlayer().setBullet(new Bullet(10, 0));
+		board.getActivePlayer().setBullet(new Bullet(10, 0));
+		board.clearTargets();
 		board.addTarget(new Target(TargetDirection.EAST, 0, 50));
 		
-		for(int i=0; i < 5; i++)
-		{
-		board.update();
-		System.out.println(board.getChallengePlayer().getBullet().getPoint());
-		Target target = board.checkCollision();
-		assertNull(target);
+		for (int i = 0; i < 4; i++) {
+			board.update();
+			Target target = board.checkCollision();
+			assertNull(target);
 		}
 		
 		board.update();
@@ -43,21 +39,20 @@ public class ShootingTests {
 	
 	@Test
 	public void testBulletMiss() {
-		board.getChallengePlayer().setBullet(new Bullet(10, 0));
+		board.getActivePlayer().setBullet(new Bullet(10, 0));
+		board.clearTargets();
 		board.addTarget(new Target(TargetDirection.WEST, 0, 50));
 		
-		for(int i=0; i < 4; i++)
-		{
-		board.update();
-		Target target = board.checkCollision();
-		assertNull(target);
+		for (int i = 0; i < 4; i++) {
+			board.update();
+			Target target = board.checkCollision();
+			assertNull(target);
 		}
+		
 		board.update();
 		Target target = board.checkCollision();
 		assertNull(target);
 	}
-	
-	
 	
 	@Test 
 	public void testScoreIncrement() {
@@ -69,5 +64,4 @@ public class ShootingTests {
 		testBulletMiss();
 		assertEquals(board.getScore(), score2);
 	}
-	
 }

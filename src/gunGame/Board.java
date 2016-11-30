@@ -1,12 +1,14 @@
 package gunGame;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class Board extends JPanel{
+public class Board extends JPanel {
+	private static final long serialVersionUID = 2914353251387918799L;
 	private ArrayList<Target> targets; 
 	private ChallengePlayer challengePlayer;
 	public QuizPlayer quizPlayer;
@@ -23,50 +25,72 @@ public class Board extends JPanel{
 		targets = new ArrayList<>();
 	}
 	
-	public static Board getInstance() 
-	{
+	public static Board getInstance() {
 		return theInstance; 
 	}
 	
 	public void update() {
-		activePlayer.getBullet().update();
+		if (activePlayer.getBullet() != null)
+			activePlayer.getBullet().update();
+		
 		for(Target target : targets)
-		{
 			target.update();
-		}
-		checkCollision();
+		
+		repaint();
 	}
 	
 	public Target checkCollision() {
 		Bullet bullet = activePlayer.getBullet();
-		for(Target target : targets)
-		{
-			if(collidesWith(target, bullet))
-			{
-				System.out.println("True");
-				return target;
+		
+		if (bullet != null) {
+			// Check Target Collision
+			for (Target target : targets) {
+				
+				// Target Hit!
+				if (target.getBounds2D().intersects(bullet.getBounds2D())) {
+					activePlayer.removeBullet();
+					score++;
+					
+					return target;
+				}
+			}
+				
+			// Check Out of Bounds Condition
+			if (bullet.getX() < 0 || bullet.getY() < 0 || bullet.getX() > 2 * ORIGIN.getX() - Bullet.RADIUS 
+					|| bullet.getY() > 2 * ORIGIN.getY() - Bullet.RADIUS) {
+				return new Target(TargetDirection.EAST, -1 ,-1);
 			}
 		}
+		
 		return null;
 	}
-
-	public boolean collidesWith(Shape first, Shape second) {
-	    boolean s = first.getBounds2D().intersects(second.getBounds2D());
-	    return s;
-	}
 	
-	public void initialize() {
+	@Override
+	public void paintComponent(Graphics g) {
+		// Clear the Screen
+		g.clearRect(0, 0, getWidth(), getHeight());
 		
+		// Draw 2D Objects
+		Graphics2D g2 = (Graphics2D) g;
+		for (Target t : targets)
+			g2.draw(t);
+		
+		if (activePlayer.getBullet() != null)
+			g2.draw(activePlayer.getBullet());
 	}
 	
 	//GETTERS AND SETTERS 
 	
-	public ChallengePlayer getChallengePlayer() {
-		return challengePlayer; 
+	public Player getActivePlayer() {
+		return activePlayer; 
 	}
 	
 	public void addTarget(Target target) {
 		targets.add(target);
+	}
+	
+	public void clearTargets() {
+		targets.clear();
 	}
 
 	public ArrayList<Target> getTargets() {

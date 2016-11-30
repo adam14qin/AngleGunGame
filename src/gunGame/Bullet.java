@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public class Bullet extends Ellipse2D{
+public class Bullet extends Ellipse2D {
 	private int angle; 
 	private Point point;
 	private int velocity; 
@@ -22,13 +22,16 @@ public class Bullet extends Ellipse2D{
 		double velocityY = -(velocity*sinDegrees((double)angle));
 		double oldY = point.getY();
 		double oldX = point.getX();
-		point.setLocation(oldX+velocityX, oldY + velocityY);
+		point.setLocation(oldX + velocityX, oldY + velocityY);
 		return point;
 	}
 	
-	public Point getPoint()
-	{
+	public Point getPoint() {
 		return point;
+	}
+	
+	public int getAngle() {
+		return angle;
 	}
 	
 	private double sinDegrees(double angle) 
@@ -39,7 +42,6 @@ public class Bullet extends Ellipse2D{
 
 	@Override
 	public Rectangle2D getBounds2D() {
-		System.out.println();
 		return new Rectangle((int)point.getX()-RADIUS,(int) point.getY()-RADIUS, RADIUS*2, RADIUS*2); 
 	}
 
@@ -55,12 +57,12 @@ public class Bullet extends Ellipse2D{
 
 	@Override
 	public double getX() {
-		return point.getX();
+		return point.getX() - RADIUS;
 	}
 
 	@Override
 	public double getY() {
-		return point.getY();
+		return point.getY() - RADIUS;
 	}
 
 	@Override
@@ -68,8 +70,5 @@ public class Bullet extends Ellipse2D{
 		return false;
 	}
 
-	@Override
-	public void setFrame(double arg0, double arg1, double arg2, double arg3) {
-		
-	}
+	@Override public void setFrame(double arg0, double arg1, double arg2, double arg3) {}
 }

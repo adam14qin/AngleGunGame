@@ -1,13 +1,8 @@
 package gunGame;
 
 public abstract class Player {
-	private int guess; 
 	private Bullet bullet; 
-	
-	public Player() {
-		
-	}
-	
+
 	public abstract int guess();
 	
 	public void setBullet(Bullet bullet) {
@@ -16,5 +11,9 @@ public abstract class Player {
 	
 	public Bullet getBullet() {
 		return bullet;
+	}
+
+	public void removeBullet() {
+		this.bullet = null;
 	}
 }

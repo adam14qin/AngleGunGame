@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.awt.Point;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import gunGame.Board;
@@ -13,15 +12,7 @@ import gunGame.Target;
 import gunGame.TargetDirection;
 
 public class MovementTests {
-	private static Board board;
-	
-	@BeforeClass
-	public static void setUp() {
-		// Board is singleton, get the only instance
-		board = Board.getInstance();
-		//Initialize the board
-		board.initialize();
-	}
+
 	@Test
 	public void testBulletMovement() {
 		Bullet bulletZero = new Bullet(20, 0);
@@ -51,6 +42,4 @@ public class MovementTests {
 		assertEquals(new Point((int)Board.ORIGIN.getX() - 28, (int)Board.ORIGIN.getY() + 28), point2);
 		assertEquals(new Point((int)Board.ORIGIN.getX() - 28, (int)Board.ORIGIN.getY()-28), point3);
 	}
-	
-	
 }
