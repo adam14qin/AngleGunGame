@@ -1,0 +1,47 @@
+commit 5a8f816182d228a06b29e0ce740f35fe23b58660
+Author: Ryan Hunt <ryhunt@adit.mines.edu>
+Date:   Wed Nov 30 16:30:33 2016 -0700
+
+    Fixed failing tests, implemented initial GUI.
+
+commit a71f46057644dbb309dd27fae76f1bfb3fe1b0bf
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 29 15:57:56 2016 -0700
+
+    Tests are not paassing
+
+commit 339469e54e45c514d29dbbefbcb96079fd82368e
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 29 14:07:01 2016 -0700
+
+    Test Target movement is passing
+
+commit 7397a1564c594fd76af394787cfc436605521208
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 29 13:33:05 2016 -0700
+
+    Test Bullet movement is passing
+
+commit de13842e2fc0dba007e8474ac62c39f6974797eb
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 22 15:25:49 2016 -0700
+
+    Collision
+
+commit 484e67052346f4789aa00e998c0b349d2509e1ad
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 22 15:01:37 2016 -0700
+
+    Test Movement for bullet and targets are failing
+
+commit b9c0ad83a245684699bd9e016322683f49972284
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 22 14:08:03 2016 -0700
+
+    Classes are added
+
+commit 7f24c55c3a3a044fe6e4303ca6e4815467b86034
+Author: Shea Styer <sheastyer@mymail.mines.edu>
+Date:   Tue Nov 22 14:01:24 2016 -0700
+
+    Initial commit
