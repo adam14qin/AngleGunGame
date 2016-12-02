@@ -29,9 +29,10 @@ public class QuizQuestion extends JPanel implements ActionListener{
 	private int answer; 
 	public Boolean correct = null;
 	
-	public QuizQuestion(int angle, int answer) {
-		this.angle = angle; 
-		this.answer = answer;
+	public QuizQuestion(Question questionInput) {
+		correct = null;
+		this.angle = questionInput.getAngle(); 
+		this.answer = questionInput.getAnswer();
 		this.setLayout(new BorderLayout());
 		question.setText("Enter the corresponding number for " + this.angle);
 		picture.setIcon(new ImageIcon(TargetDirection.EAST.getImage()));
@@ -86,6 +87,12 @@ public class QuizQuestion extends JPanel implements ActionListener{
 			picture.setIcon(new ImageIcon(direction.getImage()));
 		}
 	}
+	
+	 @Override
+     public void repaint()
+     {
+         super.repaint();
+     }
 	
 //	public static void main(String[] args) {
 //		JFrame frame = new JFrame();
