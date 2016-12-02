@@ -12,7 +12,7 @@ public abstract class Player extends Ellipse2D {
 	public static final int CENTER_RADIUS = 15;
 	public static final int CANNON_LENGTH = 30;
 	public static final int CANNON_WIDTH = 2 * Bullet.RADIUS;
-	public static final int OUTER_RADIUS = CANNON_LENGTH + 200;
+	public static final int OUTER_RADIUS = CANNON_LENGTH + 2;
 	
 	private Bullet bullet;
 	private int guessDegrees;
