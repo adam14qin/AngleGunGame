@@ -14,14 +14,15 @@ public class GunGame extends JFrame {
 	
 	public GunGame() {
 		// Game Initialization
-		board.addTarget(new Target(TargetDirection.EAST, 0, 200));
-		board.addTarget(new Target(TargetDirection.NORTH_EAST, 0, 200));
-		board.addTarget(new Target(TargetDirection.NORTH, 0, 200));
-		board.addTarget(new Target(TargetDirection.NORTH_WEST, 0, 200));
-		board.addTarget(new Target(TargetDirection.WEST, 0, 200));
-		board.addTarget(new Target(TargetDirection.SOUTH_WEST, 0, 200));
-		board.addTarget(new Target(TargetDirection.SOUTH, 0, 200));
-		board.addTarget(new Target(TargetDirection.SOUTH_EAST, 0, 200));
+		double v = 0.2;
+		/*board.addTarget(new Target(0, v, 200));
+		board.addTarget(new Target(45, v, 200));
+		board.addTarget(new Target(90, v, 200));
+		board.addTarget(new Target(135, v, 200));
+		board.addTarget(new Target(180, v, 200));
+		board.addTarget(new Target(225, v, 200));
+		board.addTarget(new Target(270, v, 200));
+		board.addTarget(new Target(315, v, 200));*/
 		
 		// Composition of Window
 		setLayout(new BorderLayout());
@@ -33,7 +34,19 @@ public class GunGame extends JFrame {
 	}
 	
 	public void run() {
-
+		// Start a Timer to Update the Board 
+		new Timer(30, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				board.update();
+				board.checkCollision();
+				controlpanel.update();
+				
+				if (Math.random() < 0.005 || board.getTargets().size() == 0) {
+					board.addTarget(new Target(Math.random() * 360, 0.3, (int) Board.ORIGIN.getX()));
+				}
+			}
+		}).start();
 	}
 	
 	public static void main(String[] args) {

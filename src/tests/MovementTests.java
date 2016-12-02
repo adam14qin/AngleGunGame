@@ -30,9 +30,9 @@ public class MovementTests {
 	
 	@Test
 	public void testTargetMovement() {
-		Target target1 = new Target(TargetDirection.EAST, 10, 50);
-		Target target2 = new Target(TargetDirection.SOUTH_WEST, 10, 50); 
-		Target target3 = new Target(TargetDirection.NORTH_WEST, 10, 50); 
+		Target target1 = new Target(0, 10, 50);
+		Target target2 = new Target(225, 10, 50); 
+		Target target3 = new Target(135, 10, 50); 
 		
 		Point point1 = target1.update(); 
 		Point point2 = target2.update();

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import sun.awt.Mutex;
+
 public class Board extends JPanel {
 	private static final long serialVersionUID = 2914353251387918799L;
 	private ArrayList<Target> targets; 
@@ -52,6 +54,7 @@ public class Board extends JPanel {
 					activePlayer.removeBullet();
 					score++;
 					
+					targets.remove(target);
 					return target;
 				}
 			}
@@ -60,7 +63,16 @@ public class Board extends JPanel {
 			if (bullet.getX() < 0 || bullet.getY() < 0 || bullet.getX() > 2 * ORIGIN.getX() - Bullet.RADIUS 
 					|| bullet.getY() > 2 * ORIGIN.getY() - Bullet.RADIUS) {
 				activePlayer.removeBullet();
-				return new Target(TargetDirection.EAST, -1 ,-1);
+				return new Target(-1, -1 ,-1);
+			}
+		}
+		
+		// Check Intersection with Player
+		for (int i = 0; i < targets.size(); i++) {
+			Target t = targets.get(i);
+			if (t.intersects(activePlayer.getBounds2D())) {
+				targets.remove(t);
+				score = 0;
 			}
 		}
 		

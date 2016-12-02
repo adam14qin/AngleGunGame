@@ -3,12 +3,16 @@ package gunGame;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
-public abstract class Player {
+public abstract class Player extends Ellipse2D {
 	public static final int CENTER_RADIUS = 15;
 	public static final int CANNON_LENGTH = 30;
 	public static final int CANNON_WIDTH = 2 * Bullet.RADIUS;
+	public static final int OUTER_RADIUS = CANNON_LENGTH + 200;
 	
 	private Bullet bullet;
 	private int guessDegrees;
@@ -55,4 +59,33 @@ public abstract class Player {
 		g2.rotate((-guessDegrees * Math.PI) / 180.0 - Math.PI / 2.0, (int) Board.ORIGIN.getX(), (int) Board.ORIGIN.getY());
 		g.fillRect((int) Board.ORIGIN.getX() - CANNON_WIDTH / 2, (int) Board.ORIGIN.getY(), CANNON_WIDTH, CANNON_LENGTH);
 	}
+
+	@Override
+	public Rectangle2D getBounds2D() {
+		return new Rectangle((int) Board.ORIGIN.getX() - OUTER_RADIUS, (int) Board.ORIGIN.getY() - OUTER_RADIUS,
+				OUTER_RADIUS * 2, OUTER_RADIUS * 2);
+	}
+
+	@Override
+	public double getX() {
+		return Board.ORIGIN.getX() - OUTER_RADIUS;
+	}
+
+	@Override
+	public double getY() {
+		return Board.ORIGIN.getY() - OUTER_RADIUS;
+	}
+
+	@Override
+	public double getWidth() {
+		return 2 * OUTER_RADIUS;
+	}
+
+	@Override
+	public double getHeight() {
+		return 2 * OUTER_RADIUS;
+	}
+
+	@Override public boolean isEmpty() {return false;}
+	@Override public void setFrame(double x, double y, double w, double h) {}
 }

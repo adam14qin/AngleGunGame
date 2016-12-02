@@ -24,7 +24,7 @@ public class ShootingTests {
 	public void testBulletCollision() {
 		board.getActivePlayer().setBullet(new Bullet(10, 0));
 		board.clearTargets();
-		board.addTarget(new Target(TargetDirection.EAST, 0, 50));
+		board.addTarget(new Target(0, 0, 50));
 		
 		for (int i = 0; i < 4; i++) {
 			board.update();
@@ -41,7 +41,7 @@ public class ShootingTests {
 	public void testBulletMiss() {
 		board.getActivePlayer().setBullet(new Bullet(10, 0));
 		board.clearTargets();
-		board.addTarget(new Target(TargetDirection.WEST, 0, 50));
+		board.addTarget(new Target(180, 0, 50));
 		
 		for (int i = 0; i < 4; i++) {
 			board.update();
