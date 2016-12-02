@@ -7,15 +7,17 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class Target extends Line2D {
-
-	private int length;
 	private Point first, second; 
 	private Point point;
 	private TargetDirection direction; 
-	private int velocity; 
+	private int velocity;
+	private int time = 0;
+	
+	public static final int LENGTH = 100;
+	public static final int WIDTH = 20;
+	public static final int COLLISION = 10;
 	
 	public Target(TargetDirection direction, int velocity, int distanceFromOrigin) {
-		this.length = 10; 
 		this.direction = direction; 
 		this.velocity = velocity;
 		int distanceX = (int) (distanceFromOrigin*cosDegrees(direction.getAngle()));
@@ -23,24 +25,21 @@ public class Target extends Line2D {
 		this.point = new Point((int)Board.ORIGIN.getX() + distanceX, (int)Board.ORIGIN.getY() + distanceY);
 		recalibratePoints();
 	}
-	
-
 
 	public void recalibratePoints() {
-		int x1 = (int) (point.getX() + (length/2)*(sinDegrees(direction.getAngle()))); 
-		int x2 = (int) (point.getX() - (length/2)*(sinDegrees(direction.getAngle()))); 
-		int y1 = (int) (point.getY() + (length/2)*(cosDegrees(direction.getAngle()))); 
-		int y2 = (int) (point.getY() - (length/2)*(cosDegrees(direction.getAngle())));
+		int x1 = (int) (point.getX() + (LENGTH/2)*(sinDegrees(direction.getAngle()))); 
+		int x2 = (int) (point.getX() - (LENGTH/2)*(sinDegrees(direction.getAngle()))); 
+		int y1 = (int) (point.getY() + (LENGTH/2)*(cosDegrees(direction.getAngle()))); 
+		int y2 = (int) (point.getY() - (LENGTH/2)*(cosDegrees(direction.getAngle())));
 		first = new Point(x1, y1); 
 		second = new Point(x2, y2); 
 	}
 	
 	public Point update() {
-		double velocityX = -(velocity*cosDegrees((double)direction.getAngle()));
-		double velocityY = (velocity*sinDegrees((double)direction.getAngle()));
-		double oldY = point.getY();
-		double oldX = point.getX();
-		point.setLocation(oldX+velocityX, oldY + velocityY);
+		time++;
+		
+		point.setLocation(time * velocity * cosDegrees((double) direction.getAngle()) + point.getX(),
+				-time * velocity * sinDegrees((double) direction.getAngle()) + point.getY());
 		recalibratePoints();
 		return point;
 	}
@@ -91,14 +90,20 @@ public class Target extends Line2D {
 	}
 
 	@Override
-	public void setLine(double x1, double y1, double x2, double y2) {
-		
-	}
-
-
+	public void setLine(double x1, double y1, double x2, double y2) {}
 
 	@Override
 	public String toString() {
 		return "Target [point=" + point + ", direction=" + direction + "]";
+	}
+	
+	@Override
+	public boolean intersects(Rectangle2D bounds) {
+		double x = (bounds.getX() + bounds.getWidth() / 2) - point.getX();
+		double y = (bounds.getY() + bounds.getHeight() / 2) - point.getY();
+		
+		if (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) < COLLISION)
+			return true;
+		return false;
 	}
 }

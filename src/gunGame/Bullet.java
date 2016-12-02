@@ -8,7 +8,8 @@ import java.awt.geom.Rectangle2D;
 public class Bullet extends Ellipse2D {
 	private int angle; 
 	private Point point;
-	private int velocity; 
+	private int velocity;
+	private int time = 0;
 	public static int RADIUS = 10;
 	
 	public Bullet(int velocity, int angle) {
@@ -18,11 +19,10 @@ public class Bullet extends Ellipse2D {
 	}
 	
 	public Point update() {
-		double velocityX = (velocity*cosDegrees((double)angle));
-		double velocityY = -(velocity*sinDegrees((double)angle));
-		double oldY = point.getY();
-		double oldX = point.getX();
-		point.setLocation(oldX + velocityX, oldY + velocityY);
+		time++;
+		
+		point.setLocation(time * velocity * cosDegrees((double) angle) + Board.ORIGIN.getX(),
+				-time * velocity * sinDegrees((double) angle) + Board.ORIGIN.getY());
 		return point;
 	}
 	
