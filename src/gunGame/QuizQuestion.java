@@ -16,6 +16,7 @@ import javax.swing.JRadioButton;
 
 public class QuizQuestion extends JPanel implements ActionListener{
 	
+	private static final long serialVersionUID = 2070203426247643755L;
 	
 	public JRadioButton numberAnswers = new JRadioButton(); 
 	public JLabel question = new JLabel(); 
@@ -86,13 +87,13 @@ public class QuizQuestion extends JPanel implements ActionListener{
 		}
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		QuizQuestion gui = new QuizQuestion(45, 3);
-		frame.add(gui); 
-		gui.setVisible(true);
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		QuizQuestion gui = new QuizQuestion(45, 3);
+//		frame.add(gui); 
+//		gui.setVisible(true);
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 }
