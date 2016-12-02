@@ -14,15 +14,14 @@ public class GunGame extends JFrame {
 	
 	public GunGame() {
 		// Game Initialization
-		board.getActivePlayer().setBullet(new Bullet(10, 0));
-		board.addTarget(new Target(TargetDirection.EAST, 0, 100));
-		board.addTarget(new Target(TargetDirection.NORTH_EAST, 0, 100));
-		board.addTarget(new Target(TargetDirection.NORTH, 0, 100));
-		board.addTarget(new Target(TargetDirection.NORTH_WEST, 0, 100));
-		board.addTarget(new Target(TargetDirection.WEST, 0, 100));
-		board.addTarget(new Target(TargetDirection.SOUTH_WEST, 0, 100));
-		board.addTarget(new Target(TargetDirection.SOUTH, 0, 100));
-		board.addTarget(new Target(TargetDirection.SOUTH_EAST, 0, 100));
+		board.addTarget(new Target(TargetDirection.EAST, 0, 200));
+		board.addTarget(new Target(TargetDirection.NORTH_EAST, 0, 200));
+		board.addTarget(new Target(TargetDirection.NORTH, 0, 200));
+		board.addTarget(new Target(TargetDirection.NORTH_WEST, 0, 200));
+		board.addTarget(new Target(TargetDirection.WEST, 0, 200));
+		board.addTarget(new Target(TargetDirection.SOUTH_WEST, 0, 200));
+		board.addTarget(new Target(TargetDirection.SOUTH, 0, 200));
+		board.addTarget(new Target(TargetDirection.SOUTH_EAST, 0, 200));
 		
 		// Composition of Window
 		setLayout(new BorderLayout());
@@ -34,22 +33,7 @@ public class GunGame extends JFrame {
 	}
 	
 	public void run() {
-		new Timer(30, new ActionListener() {
-			private int angle = 0;
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				board.update();
-				controlpanel.update();
-				Target hit = board.checkCollision();
-				
-				// Iterate through some test cases
-				if (hit != null) {
-					angle = (angle + 10) % 360;
-					board.getActivePlayer().setBullet(new Bullet(10, angle));
-				}
-			}
-		}).start();
+
 	}
 	
 	public static void main(String[] args) {

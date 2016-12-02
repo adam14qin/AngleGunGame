@@ -1,5 +1,6 @@
 package gunGame;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -11,8 +12,8 @@ public class Board extends JPanel {
 	private static final long serialVersionUID = 2914353251387918799L;
 	private ArrayList<Target> targets; 
 	private ChallengePlayer challengePlayer;
-	public QuizPlayer quizPlayer;
-	public Player activePlayer; 
+	private QuizPlayer quizPlayer;
+	private Player activePlayer; 
 	
 	private int score; 
 	public final static Point ORIGIN = new Point(300, 300);
@@ -33,7 +34,7 @@ public class Board extends JPanel {
 		if (activePlayer.getBullet() != null)
 			activePlayer.getBullet().update();
 		
-		for(Target target : targets)
+		for (Target target : targets)
 			target.update();
 		
 		repaint();
@@ -47,7 +48,7 @@ public class Board extends JPanel {
 			for (Target target : targets) {
 				
 				// Target Hit!
-				if (target.getBounds2D().intersects(bullet.getBounds2D())) {
+				if (target.intersects(bullet.getBounds2D())) {
 					activePlayer.removeBullet();
 					score++;
 					
@@ -58,6 +59,7 @@ public class Board extends JPanel {
 			// Check Out of Bounds Condition
 			if (bullet.getX() < 0 || bullet.getY() < 0 || bullet.getX() > 2 * ORIGIN.getX() - Bullet.RADIUS 
 					|| bullet.getY() > 2 * ORIGIN.getY() - Bullet.RADIUS) {
+				activePlayer.removeBullet();
 				return new Target(TargetDirection.EAST, -1 ,-1);
 			}
 		}
@@ -69,14 +71,20 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		// Clear the Screen
 		g.clearRect(0, 0, getWidth(), getHeight());
-		
-		// Draw 2D Objects
 		Graphics2D g2 = (Graphics2D) g;
+		
+		// Draw Targets
+		g2.setStroke(new BasicStroke(5));
 		for (Target t : targets)
 			g2.draw(t);
 		
+		// Draw Bullets
+		g2.setStroke(new BasicStroke(1));
 		if (activePlayer.getBullet() != null)
 			g2.draw(activePlayer.getBullet());
+		
+		// Draw Player
+		activePlayer.draw(g);
 	}
 	
 	//GETTERS AND SETTERS 
@@ -95,7 +103,7 @@ public class Board extends JPanel {
 
 	public ArrayList<Target> getTargets() {
 		return targets;
-		}
+	}
 
 	public int getScore() {
 		return score;
