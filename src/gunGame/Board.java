@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sun.awt.Mutex;
@@ -78,6 +79,7 @@ public class Board extends JPanel {
 		
 		return null;
 	}
+	
 	
 	@Override
 	public void paintComponent(Graphics g) {
