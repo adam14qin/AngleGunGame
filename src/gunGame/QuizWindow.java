@@ -17,14 +17,14 @@ import javafx.scene.layout.Border;
 
 public class QuizWindow extends JDialog implements ActionListener {
 	private int questionIndex = 1;
-	public int correct = 0;
+	public static int correct = 0;
 	private int numQuestions; 
 	private ArrayList<Question> questions; 
 	private QuizQuestion question;
 	private JLabel scoreIndexLabel;
 	private JLabel questionIndexLabel;
 	private JButton nextButton;
-	private JButton finishButton; 
+	public static JButton finishButton = new JButton("Finish"); 
 	private boolean completed = false;
 
 	public QuizWindow(int numQuestions, ArrayList<Question> questions) {
@@ -45,7 +45,6 @@ public class QuizWindow extends JDialog implements ActionListener {
 		scoreIndexLabel = new JLabel("Correct: " + correct + "/" + (questionIndex-1));
 		nextButton = new JButton("Next");
 		nextButton.addActionListener(this);
-		finishButton = new JButton("Finish"); 
 		finishButton.setEnabled(false); 
 		JPanel finishWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
 		finishWrapper.add(finishButton);
@@ -89,6 +88,7 @@ public class QuizWindow extends JDialog implements ActionListener {
 				completed = true;
 				nextButton.setEnabled(false);
 				finishButton.setEnabled(true);
+				finishButton.addActionListener(ControlPanel.getInstance());
 			}
 		}
 		else {

@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -11,12 +13,13 @@ import javax.swing.JPanel;
 
 import sun.awt.Mutex;
 
-public class Board extends JPanel {
+public class Board extends JPanel{
 	private static final long serialVersionUID = 2914353251387918799L;
 	private ArrayList<Target> targets; 
 	private ChallengePlayer challengePlayer;
 	private QuizPlayer quizPlayer;
 	private Player activePlayer; 
+	
 	
 	private int score; 
 	public final static Point ORIGIN = new Point(300, 300);
