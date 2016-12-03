@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -20,12 +21,13 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 	private static final long serialVersionUID = -8802015293029611173L;
 	private Board board = Board.getInstance();
 
-	private JLabel scoreLabel, angleLabel, highQuizScoreLabel;
+	private JLabel scoreLabel, angleLabel;
+	private static JLabel highQuizScoreLabel;
 	private JTextField scoreTextField, angleTextField;
 	private JButton fire, quiz;
 	private int highQuizScore = 0;
 	private int numQuizQuestions=0;
-	private QuizWindow quizWindow; 
+	private static QuizWindow quizWindow; 
 	
 	private static ControlPanel theInstance = new ControlPanel();
 	
@@ -99,14 +101,14 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 		if(e.getSource() == quiz)
 		{
 			ArrayList<Question> quiz = generateQuiz(5);
+			numQuizQuestions = quiz.size(); 
 			quizWindow = new QuizWindow(quiz.size(), quiz); 
 		}
 		if(e.getSource() == QuizWindow.finishButton)
 		{
 			if(highQuizScore < QuizWindow.correct){
 				highQuizScore=QuizWindow.correct;
-				highQuizScoreLabel.setText("High Quiz Score: " + highQuizScore + "/" + numQuizQuestions);
-				quizWindow.setVisible(false); 
+				highQuizScoreLabel.setText("High Score: " + highQuizScore + "/" + 5);
 			}
 		}
 		else if (e.getSource() == angleTextField) {

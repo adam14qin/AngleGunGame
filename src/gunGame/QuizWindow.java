@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ public class QuizWindow extends JDialog implements ActionListener {
 	private boolean completed = false;
 
 	public QuizWindow(int numQuestions, ArrayList<Question> questions) {
+		correct =0;
 		this.setVisible(true);
 		this.setModal(true);
 		this.setLayout(new BorderLayout());
@@ -89,11 +91,17 @@ public class QuizWindow extends JDialog implements ActionListener {
 				nextButton.setEnabled(false);
 				finishButton.setEnabled(true);
 				finishButton.addActionListener(ControlPanel.getInstance());
+				finishButton.addActionListener(el -> close());
 			}
 		}
 		else {
 			JOptionPane.showMessageDialog(this, "You need to make a guess!", "Not Finished!", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void close() {
+		this.dispatchEvent(new WindowEvent(
+                this, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public static void main(String[] args) {
