@@ -1,10 +1,14 @@
 package gunGame;
 
 import java.awt.BorderLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class GunGame extends JFrame {
@@ -14,7 +18,7 @@ public class GunGame extends JFrame {
 	
 	public GunGame() {
 		// Game Initialization
-		double v = 0.2;
+		//double v = 0.2;
 		/*board.addTarget(new Target(0, v, 200));
 		board.addTarget(new Target(45, v, 200));
 		board.addTarget(new Target(90, v, 200));
@@ -31,6 +35,23 @@ public class GunGame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize((int) Board.ORIGIN.getX() * 2 + 100, (int) Board.ORIGIN.getY() * 2);
 		setVisible(true);
+		
+		// Key Listener for JFrame
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {			
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				// Pass ALL key messages to the Control Panel
+				if (e.getID() == KeyEvent.KEY_TYPED)
+					ControlPanel.getInstance().keyTyped(e);
+				return false;
+			}
+		});
+		
+		// Usage Instructions
+		JOptionPane.showMessageDialog(this, "Welcome to Angle Gun Game!\n\nYour objective is to destroy the "
+				+ "targets that are rapidly\napproaching your cannon. Enter an angle in degrees\nusing the keyboard,"
+				+ "and press ENTER to fire.\n\nCheck out Quiz Mode to brush up on your angles.", 
+				"Instructions", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	public void run() {

@@ -2,12 +2,10 @@ package gunGame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,9 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 
-public class ControlPanel extends JPanel implements ActionListener, FocusListener {
+public class ControlPanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = -8802015293029611173L;
 	private Board board = Board.getInstance();
 
@@ -26,8 +23,11 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 	private JTextField scoreTextField, angleTextField;
 	private JButton fire, quiz;
 	private int highQuizScore = 0;
-	private int numQuizQuestions=0;
-	private static QuizWindow quizWindow; 
+	private static QuizWindow quizWindow;
+	
+	private static int currentAngle = 0;
+	private boolean appendAngle = false;
+	private boolean negativeAngle = false;
 	
 	private static ControlPanel theInstance = new ControlPanel();
 	
@@ -49,9 +49,8 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 		
 		// Angle Display
 		angleTextField = new JTextField();
+		angleTextField.setEditable(false);
 		angleTextField.setText("0");
-		angleTextField.addFocusListener(this);
-		angleTextField.addActionListener(this);
 		
 		// Fire Button
 		fire = new JButton("Fire!");
@@ -80,6 +79,9 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 	public void update() {
 		// Update Score
 		scoreTextField.setText(String.valueOf(board.getScore()));
+		
+		// Update Angle
+		angleTextField.setText(String.valueOf(currentAngle));
 	}
 
 	private ArrayList<Question> generateQuiz(int numQuestions)
@@ -98,71 +100,66 @@ public class ControlPanel extends JPanel implements ActionListener, FocusListene
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == quiz)
-		{
+		if(e.getSource() == quiz) {
+			// Pause the Game
+			board.pause();
+
+			// Open the Quiz (blocks because it is modal)
 			ArrayList<Question> quiz = generateQuiz(5);
-			numQuizQuestions = quiz.size(); 
-			quizWindow = new QuizWindow(quiz.size(), quiz); 
-		}
-		if(e.getSource() == QuizWindow.finishButton)
-		{
+			quizWindow = new QuizWindow(quiz.size(), quiz);
+			quizWindow.setModal(true);
+			quizWindow.setVisible(true);
+			
+			// Resume the Game and Update the High Score
+			board.resume();	
 			if(highQuizScore < QuizWindow.correct){
 				highQuizScore=QuizWindow.correct;
 				highQuizScoreLabel.setText("High Score: " + highQuizScore + "/" + 5);
 			}
-		}
-		else if (e.getSource() == angleTextField) {
-			try {
-				// Update the Player to Reflect the Guess
-				board.getActivePlayer().guess(Integer.parseInt(angleTextField.getText()));
-				board.update();
-			} catch (NumberFormatException ignore) {
-			}
-			
 		} else if (e.getSource() == fire) {
 			// Fire the Bullet
-			board.getActivePlayer().fire(10);
+			if (board.getActivePlayer().getBullet() == null)
+				board.getActivePlayer().fire(10);
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
+			// Update the Current Angle
+			currentAngle = Math.abs(currentAngle);
+			int newAngle = Integer.parseInt(Character.toString(e.getKeyChar()));
+			if (appendAngle && currentAngle < Integer.MAX_VALUE / 11 
+					&& currentAngle > Integer.MIN_VALUE / 11) 
+				newAngle = currentAngle * 10 + newAngle;
+			currentAngle = (negativeAngle ? -newAngle : newAngle);
+			appendAngle = true;
 			
-			// Start a Timer to Update the Board 
-			Timer timer = new Timer(30, null);
-			timer.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					board.update();
-					Target hit = board.checkCollision();
-					ControlPanel.this.update();
-					
-					// Iterate through some test cases
-					if (hit != null) {
-						timer.stop();
-					}
-				}
-			});
-			timer.start();
+			// Update the Player to Reflect the Guess
+			board.getActivePlayer().guess(currentAngle);
+			board.update();
+			
+		} else if (e.getKeyChar() == '-') { // Minus
+			// Update Angle to Reflect Minus
+			int newAngle = currentAngle;
+			if (appendAngle) {
+				newAngle = -1 * currentAngle; 
+				negativeAngle = !negativeAngle;
+			} else {
+				negativeAngle = true;
+			}			
+			currentAngle = newAngle;
+			
+			// Update the Player to Reflect the Guess
+			board.getActivePlayer().guess(currentAngle);
+			board.update();
+		} else if (e.getKeyChar() == '\n') { // Enter
+			appendAngle = false;
+			negativeAngle = false;
+			fire.doClick();
 		}
 	}
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		if (e.getSource() == angleTextField) {
-			try {
-				// Update the Player to Reflect the Guess
-				board.getActivePlayer().guess(Integer.parseInt(angleTextField.getText()));
-				board.update();
-			} catch (NumberFormatException ignore) {
-			}
-		}
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (e.getSource() == angleTextField) {
-			try {
-				// Update the Player to Reflect the Guess
-				board.getActivePlayer().guess(Integer.parseInt(angleTextField.getText()));
-				board.update();
-			} catch (NumberFormatException ignore) {
-			}
-		}	
-	}
+	@Override public void keyPressed(KeyEvent e) {}
+	@Override public void keyReleased(KeyEvent e) {}
 }

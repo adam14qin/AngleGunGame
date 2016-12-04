@@ -4,31 +4,23 @@ import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import sun.awt.Mutex;
 
 public class Board extends JPanel{
 	private static final long serialVersionUID = 2914353251387918799L;
 	private ArrayList<Target> targets; 
-	private ChallengePlayer challengePlayer;
-	private QuizPlayer quizPlayer;
 	private Player activePlayer; 
 	
 	
-	private int score; 
+	private int score;
+	private boolean paused = false; 
 	public final static Point ORIGIN = new Point(300, 300);
 	private static Board theInstance = new Board();
 	
 	private Board() {
-		challengePlayer = new ChallengePlayer(); 
-		quizPlayer = new QuizPlayer();
-		activePlayer = challengePlayer; 
+		activePlayer = new Player(); 
 		targets = new ArrayList<>();
 	}
 	
@@ -37,11 +29,13 @@ public class Board extends JPanel{
 	}
 	
 	public void update() {
-		if (activePlayer.getBullet() != null)
-			activePlayer.getBullet().update();
-		
-		for (Target target : targets)
-			target.update();
+		if (!paused) {
+			if (activePlayer.getBullet() != null)
+				activePlayer.getBullet().update();
+			
+			for (Target target : targets)
+				target.update();
+		}
 		
 		repaint();
 	}
@@ -54,7 +48,7 @@ public class Board extends JPanel{
 			for (Target target : targets) {
 				
 				// Target Hit!
-				if (target.intersects(bullet.getBounds2D())) {
+				if (target.intersects(bullet.getBounds2D(), 0)) {
 					activePlayer.removeBullet();
 					score++;
 					
@@ -74,7 +68,7 @@ public class Board extends JPanel{
 		// Check Intersection with Player
 		for (int i = 0; i < targets.size(); i++) {
 			Target t = targets.get(i);
-			if (t.intersects(activePlayer.getBounds2D())) {
+			if (t.intersects(activePlayer.getBounds2D(), Player.OUTER_RADIUS)) {
 				targets.remove(t);
 				score = 0;
 			}
@@ -111,7 +105,8 @@ public class Board extends JPanel{
 	}
 	
 	public void addTarget(Target target) {
-		targets.add(target);
+		if (!paused)
+			targets.add(target);
 	}
 	
 	public void clearTargets() {
@@ -124,5 +119,13 @@ public class Board extends JPanel{
 
 	public int getScore() {
 		return score;
+	}
+
+	public void pause() {
+		paused  = true;
+	}
+
+	public void resume() {
+		paused = false;
 	}
 }

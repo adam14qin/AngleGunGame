@@ -9,14 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import javafx.scene.layout.Border;
-
 public class QuizWindow extends JDialog implements ActionListener {
+	private static final long serialVersionUID = -170911674658603050L;
 	private int questionIndex = 1;
 	public static int correct = 0;
 	private int numQuestions; 
@@ -25,13 +23,10 @@ public class QuizWindow extends JDialog implements ActionListener {
 	private JLabel scoreIndexLabel;
 	private JLabel questionIndexLabel;
 	private JButton nextButton;
-	public static JButton finishButton = new JButton("Finish"); 
-	private boolean completed = false;
+	private JButton finishButton = new JButton("Finish"); 
 
 	public QuizWindow(int numQuestions, ArrayList<Question> questions) {
 		correct =0;
-		this.setVisible(true);
-		this.setModal(true);
 		this.setLayout(new BorderLayout());
 		this.numQuestions = numQuestions;
 		this.questions = questions;
@@ -87,7 +82,6 @@ public class QuizWindow extends JDialog implements ActionListener {
 			}
 			else {
 				scoreIndexLabel.setText("Correct: " + correct + "/" + (questionIndex));
-				completed = true;
 				nextButton.setEnabled(false);
 				finishButton.setEnabled(true);
 				finishButton.addActionListener(ControlPanel.getInstance());
@@ -103,19 +97,4 @@ public class QuizWindow extends JDialog implements ActionListener {
 		this.dispatchEvent(new WindowEvent(
                 this, WindowEvent.WINDOW_CLOSING));
 	}
-
-	public static void main(String[] args) {
-
-		ArrayList<Question> temp = new ArrayList<>();
-		temp.add(new Question(45,2));
-		temp.add(new Question(90,3));
-		temp.add(new Question(180,5));
-		temp.add(new Question(360,1));
-
-		QuizWindow gui = new QuizWindow(temp.size(), temp);
-		gui.setVisible(true);
-		gui.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-	}
-
 }

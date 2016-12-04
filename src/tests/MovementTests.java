@@ -9,7 +9,6 @@ import org.junit.Test;
 import gunGame.Board;
 import gunGame.Bullet;
 import gunGame.Target;
-import gunGame.TargetDirection;
 
 public class MovementTests {
 

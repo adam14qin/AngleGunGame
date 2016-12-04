@@ -12,7 +12,6 @@ public class Target extends Line2D {
 	private Point point;
 	private double angle; 
 	private double velocity;
-	private int time = 0;
 	
 	public static final int LENGTH = 100;
 	public static final int WIDTH = 20;
@@ -101,8 +100,7 @@ public class Target extends Line2D {
 		return "Target [point=" + point + ", direction=" + angle + "]";
 	}
 	
-	@Override
-	public boolean intersects(Rectangle2D bounds) {
+	public boolean intersects(Rectangle2D bounds, int radius) {
 		double x0 = (bounds.getX() + bounds.getWidth() / 2) ;
 		double y0 = (bounds.getY() + bounds.getHeight() / 2) ;
 		double x1=first.getX();
@@ -118,10 +116,10 @@ public class Target extends Line2D {
 		
 		double a = Math.sqrt(Math.pow(max, 2) - Math.pow(distance, 2));
 		if (a < LENGTH) {
-			if (distance < COLLISION)
+			if (distance - radius < COLLISION)
 				return true;			
 		} else {
-			if (min < COLLISION)
+			if (min - radius < COLLISION)
 				return true;
 		}
 		

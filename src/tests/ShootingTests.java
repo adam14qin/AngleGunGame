@@ -8,7 +8,6 @@ import org.junit.Test;
 import gunGame.Board;
 import gunGame.Bullet;
 import gunGame.Target;
-import gunGame.TargetDirection;
 
 public class ShootingTests {
 	
@@ -22,9 +21,11 @@ public class ShootingTests {
 	
 	@Test
 	public void testBulletCollision() {
+		Target testTarget = new Target(0, 0, 50);
+		
 		board.getActivePlayer().setBullet(new Bullet(10, 0));
 		board.clearTargets();
-		board.addTarget(new Target(0, 0, 50));
+		board.addTarget(testTarget);
 		
 		for (int i = 0; i < 4; i++) {
 			board.update();
@@ -34,7 +35,7 @@ public class ShootingTests {
 		
 		board.update();
 		Target target = board.checkCollision();
-		assertEquals(board.getTargets().get(0), target); 
+		assertEquals(testTarget, target); 
 	}
 	
 	@Test
