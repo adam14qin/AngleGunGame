@@ -1,6 +1,7 @@
 package gunGame;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -15,7 +16,8 @@ public class Board extends JPanel{
 	
 	
 	private int score;
-	private boolean paused = false; 
+	private boolean paused = false;
+	private boolean flashScreen = false; 
 	public final static Point ORIGIN = new Point(300, 300);
 	private static Board theInstance = new Board();
 	
@@ -71,6 +73,7 @@ public class Board extends JPanel{
 			if (t.intersects(activePlayer.getBounds2D(), Player.OUTER_RADIUS)) {
 				targets.remove(t);
 				score = 0;
+				flashScreen  = true;
 			}
 		}
 		
@@ -81,7 +84,14 @@ public class Board extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		// Clear the Screen
-		g.clearRect(0, 0, getWidth(), getHeight());
+		g.setColor(Color.WHITE);
+		if (flashScreen) {
+			g.setColor(Color.BLACK); flashScreen = false;
+		}
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		// 2D Drawing
+		g.setColor(Color.decode("0x333333")); // Swing Default
 		Graphics2D g2 = (Graphics2D) g;
 		
 		// Draw Targets

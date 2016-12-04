@@ -64,7 +64,8 @@ public class GunGame extends JFrame {
 				controlpanel.update();
 				
 				if (Math.random() < 0.005 || board.getTargets().size() == 0) {
-					board.addTarget(new Target(Math.random() * 360, 0.3, (int) Board.ORIGIN.getX()));
+					double speed = (board.getScore() / 50.0) + 0.3;
+					board.addTarget(new Target(Math.random() * 360, speed, (int) Board.ORIGIN.getX()));
 				}
 			}
 		}).start();
