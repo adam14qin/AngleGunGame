@@ -70,7 +70,7 @@ public class Board extends JPanel{
 		for (int i = 0; i < targets.size(); i++) {
 			Target t = targets.get(i);
 			if (t.intersects(activePlayer.getBounds2D(), Player.OUTER_RADIUS)) {
-				targets.remove(t);
+				targets.clear();
 				score = 0;
 				flashScreenFrames = 5;
 			}
