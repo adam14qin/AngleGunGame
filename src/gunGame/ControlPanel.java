@@ -136,7 +136,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 			board.resume();	
 			if(highQuizScore < QuizWindow.correct){
 				highQuizScore=QuizWindow.correct;
-				highQuizScoreLabel.setText("(High Score = " + highQuizScore + "/5");
+				highQuizScoreLabel.setText("(High Score = " + highQuizScore + "/5)");
 			}
 		}
 	}
