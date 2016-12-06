@@ -33,7 +33,7 @@ public class QuizQuestion extends JPanel implements ActionListener{
 		this.angle = questionInput.getAngle(); 
 		this.answer = questionInput.getAnswer();
 		this.setLayout(new BorderLayout());
-		question.setText("Enter the corresponding number for " + this.angle);
+		question.setText("Which target would a ball shot at " + this.angle + " degrees hit?");
 		picture.setIcon(new ImageIcon(TargetDirection.EAST.getImage()));
 		JPanel buttonPanel = new JPanel();
 		answerButton.addActionListener(this);
