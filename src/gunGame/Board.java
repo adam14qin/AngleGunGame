@@ -14,10 +14,9 @@ public class Board extends JPanel{
 	private ArrayList<Target> targets; 
 	private Player activePlayer; 
 	
-	
 	private int score;
 	private boolean paused = false;
-	private boolean flashScreen = false; 
+	private int flashScreenFrames = 0; 
 	public final static Point ORIGIN = new Point(300, 300);
 	private static Board theInstance = new Board();
 	
@@ -73,7 +72,7 @@ public class Board extends JPanel{
 			if (t.intersects(activePlayer.getBounds2D(), Player.OUTER_RADIUS)) {
 				targets.remove(t);
 				score = 0;
-				flashScreen  = true;
+				flashScreenFrames = 5;
 			}
 		}
 		
@@ -84,14 +83,14 @@ public class Board extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		// Clear the Screen
-		g.setColor(Color.WHITE);
-		if (flashScreen) {
-			g.setColor(Color.BLACK); flashScreen = false;
+		g.setColor(Color.BLACK);
+		if (flashScreenFrames > 0) {
+			g.setColor(Color.WHITE); flashScreenFrames--;
 		}
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		// 2D Drawing
-		g.setColor(Color.decode("0x333333")); // Swing Default
+		g.setColor(Color.GREEN);
 		Graphics2D g2 = (Graphics2D) g;
 		
 		// Draw Targets

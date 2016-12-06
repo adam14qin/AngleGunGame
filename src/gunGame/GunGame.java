@@ -1,6 +1,6 @@
 package gunGame;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -8,33 +8,31 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class GunGame extends JFrame {
 	private static final long serialVersionUID = -3742883917951454957L;
 	private Board board = Board.getInstance();
-	private ControlPanel controlpanel = new ControlPanel();
+	private ControlPanel controlpanel = ControlPanel.getInstance();
 	
 	public GunGame() {
-		// Game Initialization
-		//double v = 0.2;
-		/*board.addTarget(new Target(0, v, 200));
-		board.addTarget(new Target(45, v, 200));
-		board.addTarget(new Target(90, v, 200));
-		board.addTarget(new Target(135, v, 200));
-		board.addTarget(new Target(180, v, 200));
-		board.addTarget(new Target(225, v, 200));
-		board.addTarget(new Target(270, v, 200));
-		board.addTarget(new Target(315, v, 200));*/
+		// Component Dimensions
+		board.setBounds(0, 0, (int) Board.ORIGIN.getX() * 2, (int) Board.ORIGIN.getY() * 2);
+		controlpanel.setBounds(0, 0, 190, (int) Board.ORIGIN.getY() * 2);
+		
+		// Setup Layered Pane
+		JLayeredPane pane = new JLayeredPane();
+		pane.add(board, new Integer(2));
+		pane.add(controlpanel, new Integer(3));
+		pane.setPreferredSize(new Dimension((int) Board.ORIGIN.getX() * 2, (int) Board.ORIGIN.getY() * 2));
 		
 		// Composition of Window
-		setLayout(new BorderLayout());
-		add(board, BorderLayout.CENTER);
-		add(controlpanel, BorderLayout.EAST);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize((int) Board.ORIGIN.getX() * 2 + 100, (int) Board.ORIGIN.getY() * 2);
+		add(pane);
+		pack();
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		// Key Listener for JFrame
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {			

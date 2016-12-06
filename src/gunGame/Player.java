@@ -1,6 +1,7 @@
 package gunGame;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -41,6 +42,7 @@ public class Player extends Ellipse2D {
 		Graphics2D g2 = (Graphics2D) g;
 		Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
         g2.setStroke(dashed);
+        g.setColor(Color.GREEN);
         
 		// Draw Trajectory (only if bullet is moving)
 		if (bullet != null) {
@@ -54,6 +56,7 @@ public class Player extends Ellipse2D {
 				2 * OUTER_RADIUS, 2 * OUTER_RADIUS, 0, 360);
         
 		// Draw Center
+		g.setColor(Color.RED);
 		g.fillArc((int) Board.ORIGIN.getX() - CENTER_RADIUS, (int) Board.ORIGIN.getY() - CENTER_RADIUS, 
 				2 * CENTER_RADIUS, 2 * CENTER_RADIUS, 0, 360);
 		

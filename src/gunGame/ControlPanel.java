@@ -1,5 +1,10 @@
 package gunGame;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,7 +17,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class ControlPanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = -8802015293029611173L;
@@ -20,8 +24,8 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 
 	private JLabel scoreLabel, angleLabel;
 	private static JLabel highQuizScoreLabel;
-	private JTextField scoreTextField, angleTextField;
-	private JButton fire, quiz;
+	private JLabel scoreTextField, angleTextField;
+	private JButton quiz;
 	private int highQuizScore = 0;
 	private static QuizWindow quizWindow;
 	
@@ -35,43 +39,61 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 		return theInstance; 
 	}
 	
-	public ControlPanel() {
+	private ControlPanel() {
 		// Score Label
 		scoreLabel = new JLabel("Score: ");
+		scoreLabel.setFont(new Font("Courier New", Font.BOLD, 22));
+		scoreLabel.setForeground(Color.WHITE);
+		scoreLabel.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		// Score Display
-		scoreTextField = new JTextField();
-		scoreTextField.setEditable(false);
-		scoreTextField.setText("0");
+		scoreTextField = new JLabel("0");
+		scoreTextField.setFont(new Font("Courier New", Font.PLAIN, 22));
+		scoreTextField.setForeground(Color.WHITE);
 		
 		// Angle Label
 		angleLabel = new JLabel("Angle: ");
+		angleLabel.setFont(new Font("Courier New", Font.BOLD, 22));
+		angleLabel.setForeground(Color.WHITE);
 		
 		// Angle Display
-		angleTextField = new JTextField();
-		angleTextField.setEditable(false);
-		angleTextField.setText("0");
+		angleTextField = new JLabel("0\u00b0");
+		angleTextField.setFont(new Font("Courier New", Font.PLAIN, 22));
+		angleTextField.setForeground(Color.WHITE);
 		
-		// Fire Button
-		fire = new JButton("Fire!");
-		fire.addActionListener(this);
-		
-		//Quiz Button
+		// Quiz Button
 		quiz = new JButton("Quiz!");
 		quiz.addActionListener(this);
+		quiz.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		//Quiz High Score Label
-		highQuizScoreLabel = new JLabel("High Quiz Score: 0/0"); 
+		// Quiz High Score Label
+		highQuizScoreLabel = new JLabel("(High Score = 0/5)");
+		highQuizScoreLabel.setFont(new Font("Courier New", Font.PLAIN, 17));
+		highQuizScoreLabel.setForeground(Color.WHITE);
+		highQuizScoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		// Game Mechanics Panel
+		JPanel gamePanel = new JPanel();
+		gamePanel.setLayout(new GridLayout(2, 2));
+		gamePanel.setOpaque(false);
+		gamePanel.add(scoreLabel);
+		gamePanel.add(scoreTextField);
+		gamePanel.add(angleLabel);
+		gamePanel.add(angleTextField);
+		
+		// Quiz Panel
+		JPanel quizPanel = new JPanel();
+		quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
+		quizPanel.add(quiz);
+		quizPanel.add(Box.createVerticalStrut(10));
+		quizPanel.add(highQuizScoreLabel);
+		quizPanel.setOpaque(false);
 		
 		// Composition
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(scoreLabel);
-		add(scoreTextField);
-		add(angleLabel);
-		add(angleTextField);
-		add(fire);
-		add(quiz);
-		add(highQuizScoreLabel);
+		setLayout(new BorderLayout());
+		setOpaque(false);
+		add(gamePanel, BorderLayout.NORTH);
+		add(quizPanel, BorderLayout.SOUTH);
 		
 		add(Box.createVerticalStrut(300));
 	}
@@ -81,7 +103,7 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 		scoreTextField.setText(String.valueOf(board.getScore()));
 		
 		// Update Angle
-		angleTextField.setText(String.valueOf(currentAngle));
+		angleTextField.setText(String.valueOf(currentAngle) + "\u00b0");
 	}
 
 	private ArrayList<Question> generateQuiz(int numQuestions)
@@ -114,12 +136,8 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 			board.resume();	
 			if(highQuizScore < QuizWindow.correct){
 				highQuizScore=QuizWindow.correct;
-				highQuizScoreLabel.setText("High Score: " + highQuizScore + "/" + 5);
+				highQuizScoreLabel.setText("(High Score = " + highQuizScore + "/5");
 			}
-		} else if (e.getSource() == fire) {
-			// Fire the Bullet
-			if (board.getActivePlayer().getBullet() == null)
-				board.getActivePlayer().fire(10);
 		}
 	}
 
@@ -156,7 +174,10 @@ public class ControlPanel extends JPanel implements ActionListener, KeyListener 
 		} else if (e.getKeyChar() == '\n') { // Enter
 			appendAngle = false;
 			negativeAngle = false;
-			fire.doClick();
+			
+			// Fire the Bullet
+			if (board.getActivePlayer().getBullet() == null)
+				board.getActivePlayer().fire(10);
 		}
 	}
 
