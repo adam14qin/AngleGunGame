@@ -12,8 +12,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-import org.omg.PortableServer.ServantRetentionPolicyOperations;
-
 public class GunGame extends JFrame {
 	private static final long serialVersionUID = -3742883917951454957L;
 	private Board board = Board.getInstance();
